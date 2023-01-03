@@ -1,53 +1,61 @@
-var path = require("path");
+var path = require('path')
+
 module.exports = {
   entry: {
-    index:"./src/index.js"
+    index: './src/index.ts',
   },
   output: {
-    path: path.resolve(__dirname, "build/commonjs"),
-    filename: "[name].js",
-    libraryTarget: "commonjs2"
+    path: path.resolve(__dirname, 'build/commonjs'),
+    filename: '[name].js',
+    libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
       {
         test: /\.svg$/,
-        use: 'raw-loader'
+        use: 'raw-loader',
       },
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, "src")],
+        include: [path.resolve(__dirname, 'src')],
         exclude: /(node_modules|bower_components|build)/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ['flow',"env"],
+            presets: ['flow', 'env'],
             plugins: [
-              "transform-flow-strip-types",
-              require("babel-plugin-transform-react-jsx"), 
-              require("babel-plugin-transform-class-properties"),
-              require("babel-plugin-transform-object-rest-spread"),
-              
-            ]
-          }
-        }
-      }
-    ]
+              'transform-flow-strip-types',
+              require('babel-plugin-transform-react-jsx'),
+              require('babel-plugin-transform-class-properties'),
+              require('babel-plugin-transform-object-rest-spread'),
+            ],
+          },
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
   },
   externals: {
     react: {
-      commonjs: "react",
-      commonjs2: "react",
-      amd: "react",
-      umd: "react",
-      root: "React"
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      umd: 'react',
+      root: 'React',
     },
-    "react-dom": {
-      commonjs: "react-dom",
-      commonjs2: "react-dom",
-      amd: "react-dom",
-      umd: "react-dom",
-      root: "ReactDOM"
-    }
-  }
-};
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      umd: 'react-dom',
+      root: 'ReactDOM',
+    },
+  },
+  resolve: {
+    extentions: ['.tsx', '.ts', '.js'],
+  },
+}
